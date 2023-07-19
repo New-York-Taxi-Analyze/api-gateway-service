@@ -1,0 +1,8 @@
+version: '3.8'
+
+services:
+  api-gateway-service:
+    image: newyorktaxi/api-gateway-service:latest
+    container_name: api-gateway-service
+    ports:
+      - "8090:8090"

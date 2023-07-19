@@ -1,0 +1,61 @@
+server:
+  port: 8090
+
+spring:
+  application:
+    name: api-gateway-service
+  cloud:
+    gateway:
+      discovery:
+        locator:
+          enabled: true
+      routes:
+        - id: user_route
+          uri: lb://user-service
+          predicates:
+            - Path=/api/v1/user/create
+          filters:
+            - RewritePath=/api/v1/user/create, /api/v1/createUser
+
+        - id: collection_route
+          uri: lb://collection-service
+          predicates:
+            - Path=/api/v1/collection/message
+          filters:
+            - RewritePath=/api/v1/collection/message, /api/v1/message
+
+        - id: collection_route
+          uri: lb://collection-service
+          predicates:
+            - Path=/api/v1/collection/total
+          filters:
+            - RewritePath=/api/v1/collection/total, /api/v1/total
+
+        - id: collection_route
+          uri: lb://collection-service
+          predicates:
+              - Path=/api/v1/collection/hello
+          filters:
+              - RewritePath=/api/v1/collection/hello, /api/v1/hello
+
+management:
+  endpoint:
+    gateway:
+      enabled: true
+    web:
+      exposure:
+        include: '*'
+info:
+  app:
+    name: api-gateway-service
+    description: API Gateway Service
+    version: 0.0.1-SNAPSHOT
+
+eureka:
+  instance:
+    prefer-ip-address: false
+  client:
+    register-with-eureka: true
+    fetch-registry: true
+    serviceUrl:
+      defaultZone: http://localhost:8070/eureka/
