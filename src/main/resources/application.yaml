@@ -17,21 +17,21 @@ spring:
           filters:
             - RewritePath=/api/v1/user/create, /api/v1/createUser
 
-        - id: collection_route
+        - id: message_route
           uri: lb://collection-service
           predicates:
             - Path=/api/v1/collection/message
           filters:
             - RewritePath=/api/v1/collection/message, /api/v1/message
 
-        - id: collection_route
+        - id: total_route
           uri: lb://collection-service
           predicates:
             - Path=/api/v1/collection/total
           filters:
             - RewritePath=/api/v1/collection/total, /api/v1/total
 
-        - id: collection_route
+        - id: hello_route
           uri: lb://collection-service
           predicates:
               - Path=/api/v1/collection/hello
@@ -45,6 +45,10 @@ management:
     web:
       exposure:
         include: '*'
+  tracing:
+    sampling:
+      probability: 1.0
+
 info:
   app:
     name: api-gateway-service
